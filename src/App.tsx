@@ -1,196 +1,78 @@
-import React from "react"
-import * as XLSX from "xlsx"
-import "./App.css"
-import {
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Button,
-  Input,
-  Alert,
-  AlertIcon,
-} from "@chakra-ui/react"
-import { convertBirthdayFromLcloud } from "./utils/convertBirthdayFromLcloud"
+import React from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Tab, Tabs, TabList } from '@chakra-ui/react'
 
-interface IDataForLcloud {
-  fullName: string
-  birthday: string
-  group: string
-}
+import './App.css'
+import tableSvg from './assets/table.svg'
+import { Moodle } from './components/Moodle'
+import { LCloud } from './components/LCloud'
+import { Transliteration } from './components/Transliteration'
+import { GoogleWorkspace } from './components/GoogleWorkspace'
+
+// Google:
+// First Name [Required]	Last Name [Required]	Email Address [Required]	      Password [Required]	 Org Unit Path [Required]
+// Бейтуллаєва	          Людмила	              beitulaeva.liudmyla@pharm.zt.ua 29101990	           /Студенти/Післядипломна/PHe-23-5
+// Болобан	              Лілія	                boloban.liliia@pharm.zt.ua	    21041989	           /Студенти/Післядипломна/PHe-23-5
+
+//
+
+// MOODLE:
+// username	            email	                          password	firstname	 lastname	   alternatename department	cohort1	profile_field_Role
+// beitulaeva.liudmyla	beitulaeva.liudmyla@pharm.zt.ua	12345678	Людмила	   Бейтуллаєва 104-22	       104-22	    g104	  Студент
+
+//
+
+// Cloud:
+// Без шапки
+// Бейтуллаєва Людмила Павлівна 1997-04-27	12
+// Болобан Лілія Олегівна       2004-06-20	12
+// Біділо Дар’я Олександрівна   2003-12-28	12
+
+const tabs = ['Google Workspace', 'Moodle', 'LCloud', 'Transliteration']
 
 const App = () => {
-  const fileRef = React.useRef<HTMLInputElement | null>(null)
+  const [activeTab, setActiveTab] = React.useState(tabs[0])
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const [data, setData] = React.useState<unknown[]>([])
-  const [uploadedFileName, setUploadedFileName] = React.useState("")
-  const [domainValue, setDomainValue] = React.useState("@pharm.zt.ua")
-  const [newFileName, setNewFileName] = React.useState("File")
-
-  const convertDataForLcloud = (data: any[]) => {
-    // data[0].splice(0, 1)
-
-    const newData = data.slice(1).map((el) => {
-      const birthday = convertBirthdayFromLcloud(el[1])
-
-      return {
-        ["ПІБ"]: el[0],
-        ["Дата народження"]: birthday,
-        ["Група"]: el[2],
-      }
-    })
-
-    return newData
+  const handleChangeTab = (newValue: number) => {
+    setSearchParams({ tab: tabs[newValue] })
   }
 
-  const onClickUpload = () => {
-    if (!fileRef.current) return
-    fileRef.current.click()
-  }
-
-  const handleChangeUpload = (e: Event) => {
-    e.preventDefault()
-
-    const files = (e.target as HTMLInputElement).files
-
-    if (!files?.length) return
-
-    const f = files[0]
-    const reader = new FileReader()
-    reader.onload = function (e) {
-      const data = e.target.result
-      let readedData = XLSX.read(data, { type: "binary" })
-      const wsname = readedData.SheetNames[0]
-      const ws = readedData.Sheets[wsname]
-
-      setUploadedFileName(f.name)
-
-      /* Convert array to json*/
-      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 })
-
-      // dataParse.splice(0, 1)
-      setData(dataParse)
-      console.log(dataParse)
-    }
-    reader.readAsBinaryString(f)
-  }
-
-  const handleExportFile = () => {
-    const wb = XLSX.utils.book_new()
-    const ws = XLSX.utils.json_to_sheet(convertDataForLcloud(data))
-
-    let newObj: any = {}
-
-    // Зміщую всі рядки на 1 вверх, щоб прибрати шапку таблиці
-    for (var k in ws) {
-      if (k !== "!ref") {
-        const rowNum =
-          k.length === 2
-            ? k[1]
-            : k.length === 3
-            ? `${k[1]}${k[2]}`
-            : `${k[1]}${k[2]}${k[3]}`
-
-        newObj[`${k[0]}${rowNum}`] = ws[`${k[0]}${Number(rowNum) + 1}`]
-      } else {
-        newObj["!ref"] = ws["!ref"]
-      }
-    }
-
-    // Видаляю всі undefined з об`єкта
-    for (var k in newObj) {
-      if (!newObj[k]) {
-        delete newObj[k]
-      }
-    }
-
-    XLSX.utils.book_append_sheet(wb, newObj, "Лист 1")
-    XLSX.writeFile(wb, "data.xlsx")
-  }
+  React.useEffect(() => {
+    const tab = searchParams.get('tab')
+    // @ts-ignore
+    if (tab) setActiveTab(tab)
+  }, [searchParams])
 
   return (
-    <div>
-      <h1 style={{ marginBottom: "20px" }}>Download xlsx file</h1>
+    <div style={{ padding: '0 20px' }}>
+      <div style={{ maxWidth: '500px', margin: '0 auto 40px' }}>
+        <h1 style={{ margin: '20px', textAlign: 'center' }}>Download xlsx file</h1>
 
-      <Tabs variant="soft-rounded" colorScheme="green">
-        <TabList>
-          <Tab>Google Workspace</Tab>
-          <Tab>Moodle</Tab>
-          <Tab>LCloud</Tab>
-        </TabList>
+        <Tabs variant="soft-rounded" colorScheme="green" onChange={(e) => handleChangeTab(e)}>
+          <TabList style={{ justifyContent: 'center' }}>
+            {tabs.map((el) => (
+              <Tab key={el} className="tab">
+                {el}
+              </Tab>
+            ))}
+          </TabList>
+        </Tabs>
 
-        <TabPanels>
-          <TabPanel>
-            <p>one!</p>
-          </TabPanel>
-          <TabPanel>
-            <p>two!</p>
-          </TabPanel>
-          <TabPanel>
-            <p>three!</p>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+        <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>{activeTab}</h2>
 
-      <input
-        ref={fileRef}
-        type="file"
-        onChange={handleChangeUpload}
-        style={{ display: "none" }}
-      />
-      <div>
-        <Button colorScheme="teal" size="lg" onClick={onClickUpload}>
-          Upload
-        </Button>
-        {uploadedFileName && <span>{uploadedFileName}</span>}
+        {activeTab === tabs[0] && <GoogleWorkspace />}
+        {activeTab === tabs[1] && <Moodle />}
+        {activeTab === tabs[2] && <LCloud />}
+        {activeTab === tabs[3] && <Transliteration />}
       </div>
 
-      <br />
-
-      <Input
-        placeholder="Домен"
-        size="lg"
-        value={domainValue}
-        onChange={(e) => setDomainValue(e.target.value)}
-      />
-
-      <br />
-      <br />
-
-      <Input
-        placeholder="Назва ногово файлу"
-        size="lg"
-        value={newFileName}
-        onChange={(e) => setNewFileName(e.target.value)}
-      />
-
-      <br />
-      <br />
-
-      <Button
-        colorScheme="teal"
-        size="lg"
-        onClick={handleExportFile}
-        // isLoading
-        // loadingText="Завантаження"
-      >
-        Export data
-      </Button>
-
-      <br />
-
-      {/* <div style={{ position: "absolute", right: "30px", top: "30px" }}>
-        <Alert status="error">
-          <AlertIcon />
-          Формат файла не відповідає шаблону!
-        </Alert>
-
-        <Alert status="success">
-          <AlertIcon />
-          Файл завантажено!
-        </Alert>
-      </div> */}
+      {activeTab !== tabs[3] && (
+        <>
+          <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>XLSX example:</h2>
+          <img src={tableSvg} width={1000} />
+        </>
+      )}
     </div>
   )
 }

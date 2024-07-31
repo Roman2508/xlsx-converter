@@ -1,0 +1,32 @@
+<svg version="1.1" viewBox="0.0 0.0 838.0183727034121 104.7979002624672" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+    <clipPath id="p.0">
+        <path d="m0 0l838.0184 0l0 104.7979l-838.0184 0l0 -104.7979z" clip-rule="nonzero"></path>
+    </clipPath>
+    <g clip-path="url(#p.0)">
+        <path fill="#000000" fill-opacity="0.0" d="m0 0l838.0184 0l0 104.7979l-838.0184 0z" fill-rule="evenodd"></path>
+        
+        <!-- рядки та колонки -->
+        <path shape-rendering="crispEdges" fill="#efefef" d="m0 0l279.135 0l0 34.35958l-279.135 0l0 -34.35958z" fill-rule="nonzero"></path>
+        <path shape-rendering="crispEdges" fill="#efefef" d="m279.135 0l279.135 0l0 34.35958l-279.135 0l0 -34.35958z" fill-rule="nonzero"></path>
+        <path shape-rendering="crispEdges" fill="#efefef" d="m558.270 0l279.135 0l0 34.35958l-279.135 0l0 -34.35958z" fill-rule="nonzero"></path>
+        
+        <path shape-rendering="crispEdges" fill="#ffffff" d="m0 34.35958l279.135 0l0 34.35958l-279.135 0l0 -34.35958z" fill-rule="nonzero"></path>
+        <path shape-rendering="crispEdges" fill="#ffffff" d="m279.135 34.35958l279.135 0l0 34.35958l-279.135 0l0 -34.35958z" fill-rule="nonzero"></path>
+        
+        <!-- межі -->
+        <path stroke="#9e9e9e" stroke-width="1.0" stroke-linecap="butt" d="m0 0l0 68.71972" fill-rule="nonzero"></path>
+        <path stroke="#9e9e9e" stroke-width="1.0" stroke-linecap="butt" d="m279.135 0l0 68.71972" fill-rule="nonzero"></path>
+        <path stroke="#9e9e9e" stroke-width="1.0" stroke-linecap="butt" d="m558.270 0l0 68.71972" fill-rule="nonzero"></path>
+        <path stroke="#9e9e9e" stroke-width="1.0" stroke-linecap="butt" d="m0 34.35958l838.0184 0" fill-rule="nonzero"></path>
+        <path stroke="#9e9e9e" stroke-width="1.0" stroke-linecap="butt" d="m0 68.71972l838.0184 0" fill-rule="nonzero"></path>
+
+        <!-- текст -->
+        <text x="10" y="20" font-family="Arial" font-size="12" fill="black">ПІБ</text>
+        <text x="290" y="20" font-family="Arial" font-size="12" fill="black">Дата народження</text>
+        <text x="570" y="20" font-family="Arial" font-size="12" fill="black">Група</text>
+
+        <text x="10" y="54" font-family="Arial" font-size="12" fill="black">Test Student Name</text>
+        <text x="290" y="54" font-family="Arial" font-size="12" fill="black">08012007</text>
+        <text x="570" y="54" font-family="Arial" font-size="12" fill="black">PH9-24-1</text>
+    </g>
+</svg>
