@@ -49,7 +49,12 @@ const App = () => {
       <div style={{ maxWidth: '500px', margin: '0 auto 40px' }}>
         <h1 style={{ margin: '20px', textAlign: 'center' }}>Download xlsx file</h1>
 
-        <Tabs variant="soft-rounded" colorScheme="green" onChange={(e) => handleChangeTab(e)}>
+        <Tabs
+          variant="soft-rounded"
+          colorScheme="green"
+          onChange={(e) => handleChangeTab(e)}
+          index={tabs.indexOf(activeTab)}
+        >
           <TabList style={{ justifyContent: 'center' }}>
             {tabs.map((el) => (
               <Tab key={el} className="tab">
