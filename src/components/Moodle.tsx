@@ -26,7 +26,7 @@ export const Moodle = () => {
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
       const translit = createTransliteration([`${lastname} ${firstname}`])[0]
-      const email = `${translit}@pharm.zt.ua`
+      const email = `${translit}${domainValue}`
       const password = String(el[1])
       const alternatename = el[2]
 
