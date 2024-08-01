@@ -61,7 +61,6 @@ export const GoogleWorkspace = () => {
       const groupEmail = el[2] ? `${el[2].split('/').pop().toLowerCase()}${domainValue}` : el[2]
       const userEmail = `${translit}${domainValue}`
 
-      // ld9-22-1@pharm.zt.ua,budnichenko.olha@pharm.zt.ua,USER,MEMBER
       return {
         ['Group Email [Required]']: groupEmail,
         ['Member Email']: userEmail,
