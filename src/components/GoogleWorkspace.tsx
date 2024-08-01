@@ -37,7 +37,7 @@ export const GoogleWorkspace = () => {
       const translit = createTransliteration([`${lastname} ${firstname}`])[0]
       const email = `${translit}${domainValue}`
       const password = String(el[1])
-      const orgUnit = el[2]
+      const orgUnit = el[3]
 
       return {
         ['First Name [Required]']: lastname,
@@ -58,7 +58,7 @@ export const GoogleWorkspace = () => {
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
       const translit = createTransliteration([`${lastname} ${firstname}`])[0]
-      const groupEmail = el[2] ? `${el[2].split('/').pop().toLowerCase()}${domainValue}` : el[2]
+      const groupEmail = el[3] ? `${el[3].split('/').pop().toLowerCase()}${domainValue}` : el[3]
       const userEmail = `${translit}${domainValue}`
 
       return {

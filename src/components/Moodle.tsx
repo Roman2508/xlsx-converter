@@ -101,8 +101,6 @@ export const Moodle = () => {
     setUploadedFileName('')
   }
 
-  console.log(data)
-
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
       <input ref={fileRef} type="file" onChange={handleChangeUpload} style={{ display: 'none' }} />

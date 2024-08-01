@@ -3,12 +3,13 @@ import { useSearchParams } from 'react-router-dom'
 import { Tab, Tabs, TabList } from '@chakra-ui/react'
 
 import './App.css'
-import tableSvg from './assets/table.svg'
 import { Moodle } from './components/Moodle'
 import { LCloud } from './components/LCloud'
 import tableSimpleSvg from './assets/table_simple.svg'
+import tableForMoodle from './assets/tableForMoodle.svg'
 import { Transliteration } from './components/Transliteration'
 import { GoogleWorkspace } from './components/GoogleWorkspace'
+import tableForGoogleWorkspace from './assets/tableForGoogleWorkspace.svg'
 
 // Google:
 // First Name [Required]	Last Name [Required]	Email Address [Required]	      Password [Required]	 Org Unit Path [Required]
@@ -75,7 +76,10 @@ const App = () => {
 
       <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>XLSX example:</h2>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {activeTab !== tabs[3] ? <img src={tableSvg} width={1000} /> : <img src={tableSimpleSvg} width={300} />}
+        {activeTab === tabs[0] && <img src={tableForGoogleWorkspace} width={1000} />}
+        {activeTab === tabs[1] && <img src={tableForMoodle} width={1000} />}
+        {activeTab === tabs[2] && <img src={tableForMoodle} width={1000} />}
+        {activeTab === tabs[3] && <img src={tableSimpleSvg} width={300} />}
       </div>
     </div>
   )
