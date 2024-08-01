@@ -122,10 +122,10 @@ export const LCloud = () => {
 
         {!!data.length && (
           <Button
-            colorScheme="teal"
             size="lg"
-            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            colorScheme="teal"
             onClick={handleAnotherImport}
+            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
           >
             Import another data
           </Button>
@@ -135,7 +135,7 @@ export const LCloud = () => {
       <br />
 
       <FormLabel>Domain</FormLabel>
-      <Input placeholder="Domain" size="lg" value={domainValue} onChange={(e) => setDomainValue(e.target.value)} />
+      <Input size="lg" value={domainValue} placeholder="Domain" onChange={(e) => setDomainValue(e.target.value)} />
 
       <br />
       <br />
@@ -151,7 +151,14 @@ export const LCloud = () => {
       <br />
       <br />
 
-      <Button size="lg" colorScheme="teal" style={{ width: '100%' }} onClick={handleExportFile}>
+      <Button
+        size="lg"
+        variant="outline"
+        colorScheme="teal"
+        isDisabled={!data.length}
+        style={{ width: '100%' }}
+        onClick={handleExportFile}
+      >
         Export data
       </Button>
 
