@@ -30,7 +30,7 @@ export const GoogleWorkspace = () => {
 
   const convertDataForGoogleWorkspace = (data: any[]) => {
     const newData = data.map((el) => {
-      if (el.length < 3) return ''
+      if (el.length < 3) return {}
 
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
@@ -48,12 +48,12 @@ export const GoogleWorkspace = () => {
       }
     })
 
-    return newData.filter((el) => !!el)
+    return newData.filter((el) => !!Object.keys(el).length)
   }
 
   const convertDataForGroupsGoogleWorkspace = (data: any[]) => {
     const newData = data.map((el) => {
-      if (el.length < 3) return ''
+      if (el.length < 3) return {}
 
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
@@ -70,7 +70,7 @@ export const GoogleWorkspace = () => {
       }
     })
 
-    return newData.filter((el) => !!el)
+    return newData.filter((el) => !!Object.keys(el).length)
   }
 
   const handleExportFile = (data: any) => {
