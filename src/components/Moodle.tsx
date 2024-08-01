@@ -86,7 +86,7 @@ export const Moodle = () => {
       /* Convert array to json*/
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 })
 
-      const withoutEmpty = dataParse.filter((el: any) => el.length)
+      const withoutEmpty = dataParse.filter((el: any) => el.length > 3)
 
       setData(withoutEmpty)
     }
@@ -100,6 +100,8 @@ export const Moodle = () => {
     setUploadedFileName('data')
     setUploadedFileName('')
   }
+
+  console.log(data)
 
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
