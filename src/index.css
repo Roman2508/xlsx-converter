@@ -40,6 +40,13 @@ button:hover {
   border-color: #646cff;
 }
 
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 @media (max-width: 550px) {
   .tab {
     font-size: 14px !important;

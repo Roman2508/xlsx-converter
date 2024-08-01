@@ -1,6 +1,7 @@
 import React from 'react'
 import * as XLSX from 'xlsx'
 import { Button, FormLabel, Input } from '@chakra-ui/react'
+
 import { convertBirthdayFromLcloud } from '../utils/convertBirthdayFromLcloud'
 
 // Cloud:
@@ -91,35 +92,59 @@ export const LCloud = () => {
 
     XLSX.utils.book_append_sheet(wb, newObj, 'Лист 1')
     XLSX.writeFile(wb, newFileName)
+  }
 
-    fileRef.current = null
+  const handleAnotherImport = () => {
+    if (!fileRef.current) return
+    fileRef.current.value = ''
+    setData([])
+    setUploadedFileName('data')
     setUploadedFileName('')
-    setNewFileName('data')
   }
 
   return (
     <div style={{ marginTop: '20px' }}>
       <input ref={fileRef} type="file" onChange={handleChangeUpload} style={{ display: 'none' }} />
-      <div>
+      {/* <div>
         <Button colorScheme="teal" size="lg" style={{ width: '100%' }} onClick={onClickUpload}>
           Import data
         </Button>
         {uploadedFileName && <span>{uploadedFileName}</span>}
+      </div> */}
+
+      <div className="buttons-wrapper">
+        <div style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}>
+          <Button colorScheme="teal" size="lg" style={{ width: '100%' }} onClick={onClickUpload}>
+            Import data
+          </Button>
+          {uploadedFileName && <p style={{ textAlign: 'center' }}>{uploadedFileName}</p>}
+        </div>
+
+        {!!data.length && (
+          <Button
+            colorScheme="teal"
+            size="lg"
+            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            onClick={handleAnotherImport}
+          >
+            Import another data
+          </Button>
+        )}
       </div>
 
       <br />
 
-      <FormLabel>Домен</FormLabel>
-      <Input placeholder="Домен" size="lg" value={domainValue} onChange={(e) => setDomainValue(e.target.value)} />
+      <FormLabel>Domain</FormLabel>
+      <Input placeholder="Domain" size="lg" value={domainValue} onChange={(e) => setDomainValue(e.target.value)} />
 
       <br />
       <br />
 
-      <FormLabel>Назва ногово файлу</FormLabel>
+      <FormLabel>New file name</FormLabel>
       <Input
         size="lg"
         value={newFileName}
-        placeholder="Назва ногово файлу"
+        placeholder="New file name"
         onChange={(e) => setNewFileName(e.target.value)}
       />
 

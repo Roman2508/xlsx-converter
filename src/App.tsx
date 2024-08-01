@@ -6,6 +6,7 @@ import './App.css'
 import tableSvg from './assets/table.svg'
 import { Moodle } from './components/Moodle'
 import { LCloud } from './components/LCloud'
+import tableSimpleSvg from './assets/table_simple.svg'
 import { Transliteration } from './components/Transliteration'
 import { GoogleWorkspace } from './components/GoogleWorkspace'
 
@@ -72,12 +73,10 @@ const App = () => {
         {activeTab === tabs[3] && <Transliteration />}
       </div>
 
-      {activeTab !== tabs[3] && (
-        <>
-          <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>XLSX example:</h2>
-          <img src={tableSvg} width={1000} />
-        </>
-      )}
+      <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>XLSX example:</h2>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {activeTab !== tabs[3] ? <img src={tableSvg} width={1000} /> : <img src={tableSimpleSvg} width={300} />}
+      </div>
     </div>
   )
 }

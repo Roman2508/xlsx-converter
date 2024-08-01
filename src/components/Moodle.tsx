@@ -1,7 +1,9 @@
 import React from 'react'
 import * as XLSX from 'xlsx'
+import { CSVLink } from 'react-csv'
 import { Button, FormLabel, Input } from '@chakra-ui/react'
 import { splitStudentsName } from '../utils/splitStudentsName'
+
 import { createTransliteration } from '../utils/createTransliteration'
 
 // MOODLE:
@@ -61,10 +63,6 @@ export const Moodle = () => {
 
     XLSX.utils.book_append_sheet(wb, ws, 'Лист 1')
     XLSX.writeFile(wb, newFileName)
-
-    fileRef.current = null
-    setUploadedFileName('')
-    setNewFileName('data')
   }
 
   const handleChangeUpload = (e: any) => {
@@ -93,41 +91,81 @@ export const Moodle = () => {
       setData(withoutEmpty)
     }
     reader.readAsBinaryString(f)
-    e.target.value = null
+  }
+
+  const handleAnotherImport = () => {
+    if (!fileRef.current) return
+    fileRef.current.value = ''
+    setData([])
+    setUploadedFileName('data')
+    setUploadedFileName('')
   }
 
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
       <input ref={fileRef} type="file" onChange={handleChangeUpload} style={{ display: 'none' }} />
-      <div>
-        <Button colorScheme="teal" size="lg" style={{ width: '100%' }} onClick={onClickUpload}>
-          Import data
-        </Button>
-        {uploadedFileName && <span>{uploadedFileName}</span>}
+
+      <div className="buttons-wrapper">
+        <div style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}>
+          <Button colorScheme="teal" size="lg" style={{ width: '100%' }} onClick={onClickUpload}>
+            Import data
+          </Button>
+          {uploadedFileName && <p style={{ textAlign: 'center' }}>{uploadedFileName}</p>}
+        </div>
+
+        {!!data.length && (
+          <Button
+            colorScheme="teal"
+            size="lg"
+            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            onClick={handleAnotherImport}
+          >
+            Import another data
+          </Button>
+        )}
       </div>
 
       <br />
 
-      <FormLabel>Домен</FormLabel>
-      <Input placeholder="Домен" size="lg" value={domainValue} onChange={(e) => setDomainValue(e.target.value)} />
+      <FormLabel>Domain</FormLabel>
+      <Input placeholder="Domain" size="lg" value={domainValue} onChange={(e) => setDomainValue(e.target.value)} />
 
       <br />
       <br />
 
-      <FormLabel>Назва ногово файлу</FormLabel>
+      <FormLabel>New file name</FormLabel>
       <Input
         size="lg"
         value={newFileName}
-        placeholder="Назва ногово файлу"
+        placeholder="New file name"
         onChange={(e) => setNewFileName(e.target.value)}
       />
 
       <br />
       <br />
 
-      <Button size="lg" colorScheme="teal" style={{ width: '100%' }} onClick={() => handleExportFile(data)}>
-        Export data
-      </Button>
+      <div className="buttons-wrapper">
+        <Button
+          size="lg"
+          colorScheme="teal"
+          variant="outline"
+          isDisabled={!data.length}
+          style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+          onClick={() => handleExportFile(data)}
+        >
+          Export XLSX
+        </Button>
+
+        <CSVLink
+          data={convertDataForMoodle(data)}
+          filename={`${newFileName.split('.')[0]}.csv`}
+          style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+        >
+          <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
+            Export CSV
+          </Button>
+        </CSVLink>
+      </div>
 
       <br />
     </div>
