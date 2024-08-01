@@ -175,9 +175,9 @@ export const GoogleWorkspace = () => {
 
         <div className="buttons-wrapper" style={{ width: '100%' }}>
           <CSVLink
-            data={convertDataForGoogleWorkspace(data)}
             filename={`${newFileName.split('.')[0]}.csv`}
             style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            data={data.length ? convertDataForGoogleWorkspace(data) : ''}
             title="the exported file format will have the following pattern: First Name [Required], Last Name [Required], Email Address [Required], Password [Required], Org Unit Path [Required]"
           >
             <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
@@ -186,9 +186,9 @@ export const GoogleWorkspace = () => {
           </CSVLink>
 
           <CSVLink
-            data={convertDataForGroupsGoogleWorkspace(data)}
             filename={`${newFileName.split('.')[0]}.csv`}
             style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            data={data.length ? convertDataForGroupsGoogleWorkspace(data) : ''}
             title="the exported file format will have the following pattern: Group Email [Required],Member Email,Member Type,Member Role"
           >
             <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
