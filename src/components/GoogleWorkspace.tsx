@@ -132,7 +132,7 @@ export const GoogleWorkspace = () => {
 
   const onClickCSVGroup = () => {
     /* @ts-ignore */
-    csvUserLinkRef?.current?.link.click()
+    csvGroupLinkRef?.current?.link.click()
   }
 
   return (
