@@ -30,7 +30,7 @@ export const GoogleWorkspace = () => {
 
   const convertDataForGoogleWorkspace = (data: any[]) => {
     const newData = data.map((el) => {
-      if (el.length < 3) return null
+      if (el.length < 3) return ''
 
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
@@ -53,7 +53,7 @@ export const GoogleWorkspace = () => {
 
   const convertDataForGroupsGoogleWorkspace = (data: any[]) => {
     const newData = data.map((el) => {
-      if (el.length < 3) return null
+      if (el.length < 3) return ''
 
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
