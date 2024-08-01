@@ -26,6 +26,8 @@ export const GoogleWorkspace = () => {
 
   const convertDataForGoogleWorkspace = (data: any[]) => {
     const newData = data.map((el) => {
+      if (el.length < 3) return null
+
       const firstname = splitStudentsName(el[0]).firstname
       const lastname = splitStudentsName(el[0]).lastname
       const translit = createTransliteration([`${lastname} ${firstname}`])[0]
@@ -42,7 +44,29 @@ export const GoogleWorkspace = () => {
       }
     })
 
-    return newData
+    return newData.filter((el) => !!el)
+  }
+
+  const convertDataForGroupsGoogleWorkspace = (data: any[]) => {
+    const newData = data.map((el) => {
+      if (el.length < 3) return null
+
+      const firstname = splitStudentsName(el[0]).firstname
+      const lastname = splitStudentsName(el[0]).lastname
+      const translit = createTransliteration([`${lastname} ${firstname}`])[0]
+      const groupEmail = el[2] ? `${el[2].split('/').pop().toLowerCase()}${domainValue}` : el[2]
+      const userEmail = `${translit}${domainValue}`
+
+      // ld9-22-1@pharm.zt.ua,budnichenko.olha@pharm.zt.ua,USER,MEMBER
+      return {
+        ['Group Email [Required]']: groupEmail,
+        ['Member Email']: userEmail,
+        ['Member Type']: 'USER',
+        ['Member Role']: 'MEMBER',
+      }
+    })
+
+    return newData.filter((el) => !!el)
   }
 
   const handleExportFile = (data: any) => {
@@ -137,27 +161,41 @@ export const GoogleWorkspace = () => {
       <br />
       <br />
 
-      <div className="buttons-wrapper">
+      <div className="buttons-wrapper" style={{ flexWrap: 'wrap' }}>
         <Button
           size="lg"
           colorScheme="teal"
           variant="outline"
           isDisabled={!data.length}
-          style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+          style={{ flex: 1, minWidth: '100%' }}
           onClick={() => handleExportFile(data)}
         >
           Export XLSX
         </Button>
 
-        <CSVLink
-          data={convertDataForGoogleWorkspace(data)}
-          filename={`${newFileName.split('.')[0]}.csv`}
-          style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
-        >
-          <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
-            Export CSV
-          </Button>
-        </CSVLink>
+        <div className="buttons-wrapper" style={{ width: '100%' }}>
+          <CSVLink
+            data={convertDataForGoogleWorkspace(data)}
+            filename={`${newFileName.split('.')[0]}.csv`}
+            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            title="the exported file format will have the following pattern: First Name [Required], Last Name [Required], Email Address [Required], Password [Required], Org Unit Path [Required]"
+          >
+            <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
+              Export CSV (users)
+            </Button>
+          </CSVLink>
+
+          <CSVLink
+            data={convertDataForGroupsGoogleWorkspace(data)}
+            filename={`${newFileName.split('.')[0]}.csv`}
+            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+            title="the exported file format will have the following pattern: Group Email [Required],Member Email,Member Type,Member Role"
+          >
+            <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
+              Export CSV (groups)
+            </Button>
+          </CSVLink>
+        </div>
       </div>
 
       <br />
