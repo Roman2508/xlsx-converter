@@ -11,8 +11,12 @@ import { createTransliteration } from '../utils/createTransliteration'
 // Бейтуллаєва	          Людмила	            beitulaeva.liudmyla@pharm.zt.ua 29101990	         /Студенти/Післядипломна/PHe-23-5
 // Болобан	              Лілія	                boloban.liliia@pharm.zt.ua	    21041989	         /Студенти/Післядипломна/PHe-23-5
 
+const csvButtonTitle = 'The exported file format will have the following pattern:'
+
 export const GoogleWorkspace = () => {
   const fileRef = React.useRef<HTMLInputElement | null>(null)
+  const csvUserLinkRef = React.useRef<any>()
+  const csvGroupLinkRef = React.useRef<any>()
 
   const [data, setData] = React.useState<unknown[]>([])
   const [newFileName, setNewFileName] = React.useState('data')
@@ -122,6 +126,16 @@ export const GoogleWorkspace = () => {
     setUploadedFileName('')
   }
 
+  const onClickCSVUser = () => {
+    /* @ts-ignore */
+    csvUserLinkRef?.current?.link.click()
+  }
+
+  const onClickCSVGroup = () => {
+    /* @ts-ignore */
+    csvUserLinkRef?.current?.link.click()
+  }
+
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
       <input ref={fileRef} type="file" onChange={handleChangeUpload} style={{ display: 'none' }} />
@@ -161,11 +175,23 @@ export const GoogleWorkspace = () => {
       <br />
       <br />
 
+      <CSVLink
+        ref={csvUserLinkRef}
+        filename={`${newFileName.split('.')[0]}.csv`}
+        data={data.length ? convertDataForGoogleWorkspace(data) : ''}
+      />
+
+      <CSVLink
+        ref={csvGroupLinkRef}
+        filename={`${newFileName.split('.')[0]}.csv`}
+        data={data.length ? convertDataForGroupsGoogleWorkspace(data) : ''}
+      />
+
       <div className="buttons-wrapper" style={{ flexWrap: 'wrap' }}>
         <Button
           size="lg"
-          colorScheme="teal"
           variant="outline"
+          colorScheme="teal"
           isDisabled={!data.length}
           style={{ flex: 1, minWidth: '100%' }}
           onClick={() => handleExportFile(data)}
@@ -174,27 +200,29 @@ export const GoogleWorkspace = () => {
         </Button>
 
         <div className="buttons-wrapper" style={{ width: '100%' }}>
-          <CSVLink
-            filename={`${newFileName.split('.')[0]}.csv`}
-            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
-            data={data.length ? convertDataForGoogleWorkspace(data) : ''}
-            title="the exported file format will have the following pattern: First Name [Required], Last Name [Required], Email Address [Required], Password [Required], Org Unit Path [Required]"
+          <Button
+            size="lg"
+            variant="outline"
+            colorScheme="teal"
+            onClick={onClickCSVUser}
+            isDisabled={!data.length}
+            style={{ width: '100%' }}
+            title={`${csvButtonTitle} First Name [Required], Last Name [Required], Email Address [Required], Password [Required], Org Unit Path [Required]`}
           >
-            <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
-              Export CSV (users)
-            </Button>
-          </CSVLink>
+            Export CSV (users)
+          </Button>
 
-          <CSVLink
-            filename={`${newFileName.split('.')[0]}.csv`}
-            style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
-            data={data.length ? convertDataForGroupsGoogleWorkspace(data) : ''}
-            title="the exported file format will have the following pattern: Group Email [Required],Member Email,Member Type,Member Role"
+          <Button
+            size="lg"
+            variant="outline"
+            colorScheme="teal"
+            onClick={onClickCSVGroup}
+            isDisabled={!data.length}
+            style={{ width: '100%' }}
+            title={`${csvButtonTitle} Group Email [Required],Member Email,Member Type,Member Role`}
           >
-            <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
-              Export CSV (groups)
-            </Button>
-          </CSVLink>
+            Export CSV (groups)
+          </Button>
         </div>
       </div>
 
