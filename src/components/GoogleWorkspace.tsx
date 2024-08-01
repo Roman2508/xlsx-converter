@@ -177,14 +177,14 @@ export const GoogleWorkspace = () => {
 
       <CSVLink
         ref={csvUserLinkRef}
-        filename={`${newFileName.split('.')[0]}.csv`}
         data={data.length ? convertDataForGoogleWorkspace(data) : ''}
+        filename={`${newFileName ? newFileName.split('.')[0] : 'data'}.csv`}
       />
 
       <CSVLink
         ref={csvGroupLinkRef}
-        filename={`${newFileName.split('.')[0]}.csv`}
         data={data.length ? convertDataForGroupsGoogleWorkspace(data) : ''}
+        filename={`${newFileName ? newFileName.split('.')[0] : 'data'}.csv`}
       />
 
       <div className="buttons-wrapper" style={{ flexWrap: 'wrap' }}>

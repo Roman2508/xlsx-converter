@@ -158,8 +158,8 @@ export const Moodle = () => {
 
         <CSVLink
           data={convertDataForMoodle(data)}
-          filename={`${newFileName.split('.')[0]}.csv`}
           style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}
+          filename={`${newFileName ? newFileName.split('.')[0] : 'data'}.csv`}
         >
           <Button size="lg" variant="outline" colorScheme="teal" isDisabled={!data.length} style={{ width: '100%' }}>
             Export CSV
