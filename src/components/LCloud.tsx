@@ -19,7 +19,7 @@ export const LCloud = () => {
   const [domainValue, setDomainValue] = React.useState('@pharm.zt.ua')
 
   const convertDataForLcloud = (data: any[]) => {
-    const newData = data.slice(1).map((el) => {
+    const newData = data.map((el) => {
       const birthday = convertBirthdayFromLcloud(el[1])
 
       return {
@@ -63,7 +63,6 @@ export const LCloud = () => {
       setData(withoutEmpty)
     }
     reader.readAsBinaryString(f)
-    e.target.value = null
   }
 
   const handleExportFile = () => {
@@ -105,12 +104,6 @@ export const LCloud = () => {
   return (
     <div style={{ marginTop: '20px' }}>
       <input ref={fileRef} type="file" onChange={handleChangeUpload} style={{ display: 'none' }} />
-      {/* <div>
-        <Button colorScheme="teal" size="lg" style={{ width: '100%' }} onClick={onClickUpload}>
-          Import data
-        </Button>
-        {uploadedFileName && <span>{uploadedFileName}</span>}
-      </div> */}
 
       <div className="buttons-wrapper">
         <div style={{ flex: 1, minWidth: 'calc(50% - 5px)' }}>
