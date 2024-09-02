@@ -85,7 +85,7 @@ export const Transliteration = () => {
     if (!name) return
 
     // Якщо не внесено прізвище та ім'я
-    if (name.split(' ').length !== 2) return
+    // if (name.split(' ').length !== 2) return
 
     const value = createTransliteration([name])
     setTransliteration(value[0])

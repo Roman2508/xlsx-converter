@@ -1,4 +1,4 @@
-export const transliterateCyrillicToLatin = (input: string): string => {
+export const transliterateCyrillicToLatin = (input: string, skip = false): string => {
   const cyrillicToLatinMap: { [key: string]: string } = {
     а: 'a',
     б: 'b',
@@ -93,7 +93,7 @@ export const transliterateCyrillicToLatin = (input: string): string => {
   const namesArr = input.split(' ')
 
   if (namesArr.length !== 2) {
-    alert("Ім'я або прізвище не вказано")
+    skip && alert("Ім'я або прізвище не вказано")
     return ''
   }
 
