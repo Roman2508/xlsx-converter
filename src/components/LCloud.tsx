@@ -53,7 +53,7 @@ export const LCloud = () => {
       const ws = readedData.Sheets[wsname]
 
       setUploadedFileName(f.name)
-      setNewFileName(`${f.name.split('.')[0]}_lcloud.xlsx`)
+      setNewFileName(`${f.name.split('.')[0]}_lcloud.xls`)
 
       /* Convert array to json*/
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 })

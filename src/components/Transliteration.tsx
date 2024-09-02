@@ -1,10 +1,13 @@
 import React from 'react'
 import * as XLSX from 'xlsx'
-import { Button } from '@chakra-ui/react'
+import { AbsoluteCenter, Box, Button, Divider, Input } from '@chakra-ui/react'
 import { createTransliteration } from '../utils/createTransliteration'
 
 export const Transliteration = () => {
   const fileRef = React.useRef<HTMLInputElement | null>(null)
+
+  const [name, setName] = React.useState('')
+  const [transliteration, setTransliteration] = React.useState('')
 
   const onClickUpload = () => {
     if (!fileRef.current) return
@@ -78,8 +81,40 @@ export const Transliteration = () => {
     e.target.value = null
   }
 
+  React.useEffect(() => {
+    if (!name) return
+
+    // Якщо не внесено прізвище та ім'я
+    if (name.split(' ').length !== 2) return
+
+    const value = createTransliteration([name])
+    setTransliteration(value[0])
+  }, [name])
+
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      <Input
+        value={name}
+        variant="filled"
+        placeholder="Name"
+        style={{ marginBottom: '16px' }}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <Input
+        readOnly
+        variant="filled"
+        value={transliteration}
+        placeholder="Transliteration"
+        style={{ marginBottom: '0px' }}
+      />
+
+      <Box position="relative" padding="10">
+        <Divider />
+        <AbsoluteCenter bg="white" px="4">
+          або
+        </AbsoluteCenter>
+      </Box>
+
       <input ref={fileRef} type="file" onChange={handleChangeUpload} style={{ display: 'none' }} />
       <div>
         <Button colorScheme="teal" size="lg" onClick={onClickUpload}>

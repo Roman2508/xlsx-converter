@@ -33,7 +33,7 @@ export const Moodle = () => {
       const alternatename = el[2]
 
       return {
-        ['username']: translit,
+        ['username']: email,
         ['email']: email,
         ['password']: password,
         ['firstname']: firstname,
