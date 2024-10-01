@@ -10,6 +10,7 @@ import tableForMoodle from './assets/tableForMoodle.svg'
 import { Transliteration } from './components/Transliteration'
 import { GoogleWorkspace } from './components/GoogleWorkspace'
 import tableForGoogleWorkspace from './assets/tableForGoogleWorkspace.svg'
+import MoodleGIFT from './components/MoodleGIFT'
 
 // Google:
 // First Name [Required]	Last Name [Required]	Email Address [Required]	      Password [Required]	 Org Unit Path [Required]
@@ -30,7 +31,7 @@ import tableForGoogleWorkspace from './assets/tableForGoogleWorkspace.svg'
 // Болобан Лілія Олегівна       2004-06-20	12
 // Біділо Дар’я Олександрівна   2003-12-28	12
 
-const tabs = ['Google Workspace', 'Moodle', 'LCloud', 'Transliteration']
+const tabs = ['Google Workspace', 'Moodle', 'Moodle GIFT', 'LCloud', 'Transliteration']
 
 const App = () => {
   const [activeTab, setActiveTab] = React.useState(tabs[0])
@@ -48,7 +49,7 @@ const App = () => {
 
   return (
     <div style={{ padding: '0 20px' }}>
-      <div style={{ maxWidth: '500px', margin: '0 auto 40px' }}>
+      <div style={{ maxWidth: '600px', margin: '0 auto 40px' }}>
         <h1 style={{ margin: '20px', textAlign: 'center' }}>Download xlsx file</h1>
 
         <Tabs
@@ -59,7 +60,7 @@ const App = () => {
         >
           <TabList style={{ justifyContent: 'center' }}>
             {tabs.map((el) => (
-              <Tab key={el} className="tab">
+              <Tab key={el} className="tab" style={{ whiteSpace: 'nowrap' }}>
                 {el}
               </Tab>
             ))}
@@ -70,16 +71,21 @@ const App = () => {
 
         {activeTab === tabs[0] && <GoogleWorkspace />}
         {activeTab === tabs[1] && <Moodle />}
-        {activeTab === tabs[2] && <LCloud />}
-        {activeTab === tabs[3] && <Transliteration />}
+        {activeTab === tabs[2] && <MoodleGIFT />}
+        {activeTab === tabs[3] && <LCloud />}
+        {activeTab === tabs[4] && <Transliteration />}
       </div>
 
-      <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>XLSX example:</h2>
+      {activeTab !== tabs[2] && (
+        <h2 style={{ fontSize: '26px', marginTop: '40px', textAlign: 'center' }}>XLSX example:</h2>
+      )}
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {activeTab === tabs[0] && <img src={tableForGoogleWorkspace} width={1000} />}
         {activeTab === tabs[1] && <img src={tableForMoodle} width={1000} />}
-        {activeTab === tabs[2] && <img src={tableForMoodle} width={1000} />}
-        {activeTab === tabs[3] && <img src={tableSimpleSvg} width={300} />}
+
+        {activeTab === tabs[3] && <img src={tableForMoodle} width={1000} />}
+        {activeTab === tabs[4] && <img src={tableSimpleSvg} width={300} />}
       </div>
     </div>
   )
