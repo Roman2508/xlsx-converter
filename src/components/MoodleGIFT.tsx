@@ -28,8 +28,9 @@ const MoodleGIFT = () => {
       // el === '' - для розриву в місцях де пустий рядок
       // index + 1 === lines.length для перевірки чи це останнє питання
 
-      if (el === '' || index + 1 === lines.length) {
+      if (el === '\r' || index + 1 === lines.length) {
         const line = lines.slice(lineStart, index + 1)
+
         lineStart = index + 1
         questions.push(line)
       }
@@ -79,7 +80,10 @@ ${el
       const text = e.target.result
 
       const a = convertToGIFT(text)
+
       downloadTextFile(a)
+      // @ts-ignore
+      // fileRef?.current?.value = ''
     }
     reader.readAsText(e.target.files[0])
   }
