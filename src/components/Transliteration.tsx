@@ -5,8 +5,10 @@ import { createTransliteration } from '../utils/createTransliteration'
 
 export const Transliteration = () => {
   const fileRef = React.useRef<HTMLInputElement | null>(null)
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
 
   const [name, setName] = React.useState('')
+  const [isCopied, setIsCopied] = React.useState(false)
   const [transliteration, setTransliteration] = React.useState('')
 
   const onClickUpload = () => {
@@ -81,32 +83,60 @@ export const Transliteration = () => {
     e.target.value = null
   }
 
-  React.useEffect(() => {
+  const createUserTransliteration = () => {
     if (!name) return
 
     // Якщо не внесено прізвище та ім'я
     // if (name.split(' ').length !== 2) return
-
+    setIsCopied(false)
     const value = createTransliteration([name])
     setTransliteration(value[0])
-  }, [name])
+  }
+
+  const copyToClipboard = (e: any) => {
+    if (!inputRef || !inputRef.current) return
+    inputRef.current.select()
+    document.execCommand('copy')
+
+    e.target.focus()
+    setIsCopied(true)
+  }
 
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <Input
-        value={name}
-        variant="filled"
-        placeholder="Name"
-        style={{ marginBottom: '16px' }}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <Input
-        readOnly
-        variant="filled"
-        value={transliteration}
-        placeholder="Transliteration"
-        style={{ marginBottom: '0px' }}
-      />
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '10px' }}>
+        <Input value={name} variant="filled" placeholder="Name" onChange={(e) => setName(e.target.value)} />
+        <Button colorScheme="teal" size="md" onClick={createUserTransliteration} variant="outline">
+          Create
+        </Button>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Input readOnly ref={inputRef} variant="filled" value={transliteration} placeholder="Transliteration" />
+        <Button colorScheme="teal" size="md" variant="outline" onClick={copyToClipboard} sx={{ width: '80px' }}>
+          {!isCopied ? (
+            'Copy'
+          ) : (
+            <svg
+              stroke="currentColor"
+              fill="none"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path stroke="none" d="M0 0h24v24H0z"></path>
+              <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"></path>
+              <path d="M4.012 16.737a2 2 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path>
+              <path d="M11 14h6"></path>
+              <path d="M14 11v6"></path>
+            </svg>
+          )}
+        </Button>
+      </div>
 
       <Box position="relative" padding="10">
         <Divider />
