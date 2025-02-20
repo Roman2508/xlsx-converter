@@ -41,19 +41,10 @@ const MoodleGIFT = () => {
 =${el[1]}
 ${el
   .slice(2)
-  .map((answer, index) => {
+  .map((answer) => {
     if (!answer) return
-
-    if (index + 3 < el.length) {
-      return `~${answer}\n`
-    } else {
-      const isAnswerEmpty = !el[index].replace(/\r/g, '')
-
-      if (!isAnswerEmpty) {
-        return `~${answer}`
-      }
-      return `${answer}`
-    }
+    const clearedAnsver = answer.replace(/\r/g, '')
+    return clearedAnsver ? `~${answer}\n` : null
   })
   .join('')}}
 `
