@@ -47,7 +47,12 @@ ${el
     if (index + 3 < el.length) {
       return `~${answer}\n`
     } else {
-      return `~${answer}`
+      const isAnswerEmpty = !el[index].replace(/\r/g, '')
+
+      if (!isAnswerEmpty) {
+        return `~${answer}`
+      }
+      return `${answer}`
     }
   })
   .join('')}}
@@ -79,9 +84,10 @@ ${el
 
       const text = e.target.result
 
-      const a = convertToGIFT(text)
+      const gift = convertToGIFT(text)
 
-      downloadTextFile(a)
+      downloadTextFile(gift)
+
       // @ts-ignore
       // fileRef?.current?.value = ''
     }
